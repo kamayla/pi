@@ -13,14 +13,8 @@
 </head>
 <body>
   <div>
-    <canvas id="canvas" width="640" height="480"></canvas>
+    <canvas id="canvas" width="401" height="401"></canvas>
   </div>
-  
-  <lable for="loop">
-    ループ回数
-    <input type="text" id="loop">
-  </lable>
-  <button id="calc">計算</button>
   <p>円の中:<span id="a"></span></p>
   <p>円の外:<span id="b"></span></p>
   <p>正方形の面積:<span id="d"></span></p>
@@ -30,11 +24,9 @@
 </body>
 <script>
   var canvas = document.getElementById("canvas");
-  
   var ctx = canvas.getContext('2d');
   ctx.strokeRect(1, 1, 400, 400);
   ctx.arc(201, 201, 200, 0, Math.PI * 2);
-  // 線を描画を実行
   ctx.stroke() ;
 
   let innerCircle = 0;
@@ -48,7 +40,6 @@
 
   document.getElementById('d').innerText = squareArea;
 
-  document.getElementById("calc").onclick =　main;
   setInterval(main, 1000);
   
   function main() {
