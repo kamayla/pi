@@ -5,8 +5,17 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <style>
+    #canvas {
+      background: rgb(226, 226, 226);
+    }
+  </style>
 </head>
 <body>
+  <div>
+    <canvas id="canvas" width="640" height="480"></canvas>
+  </div>
+  
   <lable for="loop">
     ループ回数
     <input type="text" id="loop">
@@ -20,19 +29,30 @@
   <p>円周率:<span id="f"></span></p>
 </body>
 <script>
+  var canvas = document.getElementById("canvas");
+  
+  var ctx = canvas.getContext('2d');
+  ctx.strokeRect(1, 1, 400, 400);
+  ctx.arc(201, 201, 200, 0, Math.PI * 2);
+  // 線を描画を実行
+  ctx.stroke() ;
+
   let innerCircle = 0;
   let outOfCircle = 0;
   let innerRate = 0;
   let circleArea = 0;
 
-  const R = 10;
+  const R = 200;
   const powR = Math.pow(R, 2);
   const squareArea = Math.pow(R * 2, 2);
 
   document.getElementById('d').innerText = squareArea;
 
-  document.getElementById("calc").onclick =　function() {
-    const loop = document.getElementById('loop').value;
+  document.getElementById("calc").onclick =　main;
+  setInterval(main, 1000);
+  
+  function main() {
+    const loop = 1000;
     for (let i = 0; i < loop; i++) {
       let isInnerCircle = judgeInnerCircle(createPoint() , createPoint());
       isInnerCircle ? countInner() : countOuter();
@@ -43,7 +63,12 @@
   
   function judgeInnerCircle(x, y) {
     const sumXYPow = Math.pow((x - R), 2) + Math.pow((y - R), 2);
-    return powR >= sumXYPow;
+    const isInnerCircle = (powR >= sumXYPow)
+    isInnerCircle ? ctx.fillStyle = 'rgb(255,00,00)' : ctx.fillStyle = 'rgb(00,00,00)';
+    ctx.beginPath();
+    ctx.arc(x, y, 2, 0, Math.PI * 2, true);
+    ctx.fill();
+    return isInnerCircle;
   }
 
   function createPoint() {
