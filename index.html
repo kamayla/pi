@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <lable for="loop">
+    ループ回数
+    <input type="text" id="loop">
+  </lable>
+  <button id="calc">計算</button>
+  <p>円の中:<span id="a"></span></p>
+  <p>円の外:<span id="b"></span></p>
+  <p>正方形の面積:<span id="d"></span></p>
+  <p>円の面積:<span id="e"></span></p>
+  <p>比率:<span id="c"></span></p>
+  <p>円周率:<span id="f"></span></p>
+</body>
+<script>
+  let innerCircle = 0;
+  let outOfCircle = 0;
+  let innerRate = 0;
+  let circleArea = 0;
+
+  const R = 10;
+  const powR = Math.pow(R, 2);
+  const squareArea = Math.pow(R * 2, 2);
+
+  document.getElementById('d').innerText = squareArea;
+
+  document.getElementById("calc").onclick =　function() {
+    const loop = document.getElementById('loop').value;
+    for (let i = 0; i < loop; i++) {
+      let isInnerCircle = judgeInnerCircle(createPoint() , createPoint());
+      isInnerCircle ? countInner() : countOuter();
+      calcInnerRate();
+      calcPi();
+    }
+  }
+  
+  function judgeInnerCircle(x, y) {
+    const sumXYPow = Math.pow((x - R), 2) + Math.pow((y - R), 2);
+    return powR >= sumXYPow;
+  }
+
+  function createPoint() {
+    const doubleR = R * 2;
+    let randomPoint = Math.floor(Math.random() * doubleR) + 1;
+    return randomPoint;
+  }
+
+  function countInner() {
+    innerCircle++;
+    document.getElementById('a').innerText = innerCircle;
+  }
+
+  function countOuter() {
+    outOfCircle++;
+    document.getElementById('b').innerText = outOfCircle;
+  }
+
+  function calcInnerRate() {
+    const total = innerCircle + outOfCircle;
+    innerRate = (innerCircle / total) * 100;
+    document.getElementById('c').innerText = innerRate;
+  }
+
+  function calcPi() {
+    circleArea = (squareArea / 100) * innerRate;
+    document.getElementById('e').innerText = circleArea;
+    const pi = circleArea / powR;
+    document.getElementById('f').innerText = pi;
+  }
+
+</script>
+</html>
